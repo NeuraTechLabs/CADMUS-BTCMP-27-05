@@ -1,12 +1,13 @@
 ---
 # Template-based topology adapted from sderziotis/btcmp-18-mod3
-name: cadmus-topology-template
+name: cr08-template
+
 hosts:
-  - name: windows1
+  - name: dc01
     flavor: c2_r4_d40
     base_box:
       image: windows-server-2019-x86_64
-      mgmt_user: Administrator
+      mgmt_user: windows
     hidden: false
 routers:
   - name: router-1
