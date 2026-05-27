@@ -12,6 +12,14 @@ hosts:
 
 routers: []
 
+routers:
+  - name: router-1
+    flavor: standard.small
+    base_box:
+      image: ubuntu-noble-x86_64
+      mgmt_user: ubuntu
+    hidden: false
+
 networks:
   - name: mgmt
     cidr: 192.168.56.0/24
@@ -27,7 +35,10 @@ net_mappings:
     network: mgmt
     ip: 192.168.56.10
 
-router_mappings: []
+router_mappings:
+  - router: router-1
+    network: mgmt
+    ip: 192.168.56.1
 groups: []
 
 # Notes:
