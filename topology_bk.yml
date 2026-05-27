@@ -4,23 +4,27 @@ hosts:
     flavor: c2_r4_d40
     base_box:
       image: windows-server-2019-x86_64
-      mgmt_user: windows
+      mgmt_user: Administrator
       mgmt_protocol: winrm
     hidden: false
   - name: srv01
     flavor: c2_r4_d40
     base_box:
       image: windows-server-2019-x86_64
-      mgmt_user: windows
+      mgmt_user: Administrator
       mgmt_protocol: winrm
     hidden: false
+    volumes:
+      - size: 10
   - name: srv02
     flavor: c2_r4_d40
     base_box:
       image: windows-server-2019-x86_64
-      mgmt_user: windows
+      mgmt_user: Administrator
       mgmt_protocol: winrm
     hidden: false
+    volumes:
+      - size: 10
   - name: lin1
     flavor: c2_r4_d40
     base_box:
@@ -42,6 +46,8 @@ hosts:
       mgmt_user: debian
       mgmt_protocol: ssh
     hidden: false
+    volumes:
+      - size: 10
   - name: lin4
     flavor: c2_r4_d40
     base_box:
@@ -50,13 +56,27 @@ hosts:
       mgmt_protocol: ssh
     hidden: false
 routers:
-  - name: router
+  - name: r-access
     flavor: standard.small
     base_box:
       image: debian-12-x86_64
       mgmt_user: debian
       mgmt_protocol: ssh
-    hidden: false
+    hidden: true
+  - name: r-cluster
+    flavor: standard.small
+    base_box:
+      image: debian-12-x86_64
+      mgmt_user: debian
+      mgmt_protocol: ssh
+    hidden: true
+  - name: r-storage
+    flavor: standard.small
+    base_box:
+      image: debian-12-x86_64
+      mgmt_user: debian
+      mgmt_protocol: ssh
+    hidden: true
 networks:
   - name: access-switch
     cidr: 10.10.10.0/24
@@ -120,16 +140,16 @@ net_mappings:
     network: storage-switch
     ip: 10.10.30.3
   - host: lin4
-    network: access-switch
-    ip: 10.10.10.9
+    network: access
+    ip: 10.10.10.9-switch
 router_mappings:
-  - router: router
+  - router: r-access
     network: access-switch
     ip: 10.10.10.1
-  - router: router
+  - router: r-cluster
     network: cluster-switch
     ip: 10.10.20.1
-  - router: router
+  - router: r-storage
     network: storage-switch
     ip: 10.10.30.1
 groups:
