@@ -1,0 +1,22 @@
+---
+# Simple sandbox topology definition
+version: 1
+name: cadmus-topology
+
+nodes:
+  - id: windows1
+    name: windows1
+    type: virtual-machine
+    image: windows-10-x86_64
+    cpus: 2
+    memory: 4096
+    networks:
+      - name: mgmt
+        address: 192.168.56.10
+    provision:
+      ansible_group: windows
+      ansible_playbook: ansible/playbook.yml
+
+# Notes:
+# - Replace the `address` and credentials as needed for your environment.
+# - The `image` value is set to the requested `windows-10-x86_64`.
