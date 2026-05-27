@@ -9,9 +9,6 @@ hosts:
       image: windows-10-x86_64
       mgmt_user: Administrator
     hidden: false
-
-routers: []
-
 routers:
   - name: router-1
     flavor: standard.small
