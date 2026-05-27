@@ -25,7 +25,7 @@ wan:
   name: network-1
   cidr: 10.10.10.0/24
 net_mappings:
-  - host: windows1
+  - host: dc01
     network: mgmt
     ip: 192.168.56.10
 router_mappings:
