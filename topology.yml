@@ -1,22 +1,36 @@
 ---
-# Simple sandbox topology definition
-version: 1
+# Simple sandbox topology definition (schema-compliant)
 name: cadmus-topology
 
-nodes:
-  - id: windows1
-    name: windows1
-    type: virtual-machine
-    image: windows-10-x86_64
-    cpus: 2
-    memory: 4096
-    networks:
-      - name: mgmt
-        address: 192.168.56.10
-    provision:
-      ansible_group: windows
-      ansible_playbook: ansible/playbook.yml
+hosts:
+  - name: windows1
+    flavor: c2_r2_d8
+    base_box:
+      image: windows-10-x86_64
+      mgmt_user: Administrator
+    mgmt_protocol: winrm
+    hidden: false
+
+routers: []
+
+networks:
+  - name: mgmt
+    cidr: 192.168.56.0/24
+    accessible_by_user: true
+    hidden: false
+
+wan:
+  name: network-1
+  cidr: 10.10.10.0/24
+
+net_mappings:
+  - host: windows1
+    network: mgmt
+    ip: 192.168.56.10
+
+router_mappings: []
+groups: []
 
 # Notes:
-# - Replace the `address` and credentials as needed for your environment.
-# - The `image` value is set to the requested `windows-10-x86_64`.
+# - This file now follows the expected topology schema (uses `hosts`, not `nodes`).
+# - Adjust IPs, flavors, and credentials as needed for your environment.
