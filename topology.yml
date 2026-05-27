@@ -6,7 +6,7 @@ hosts:
   - name: windows1
     flavor: c2_r4_d40
     base_box:
-      image: windows-10-x86_64
+      image: windows-server-2019-x86_64
       mgmt_user: Administrator
     hidden: false
 routers:
