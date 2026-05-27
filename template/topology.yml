@@ -3,7 +3,7 @@
 name: cadmus-topology-template
 hosts:
   - name: windows1
-    flavor: c2_r2_d8
+    flavor: c2_r4_d40
     base_box:
       image: windows-10-x86_64
       mgmt_user: Administrator
