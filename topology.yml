@@ -1,53 +1,24 @@
 name: cr08
 hosts:
-  - name: dc01
-    flavor: c2_r4_d40
-    base_box:
-      image: windows-server-2019-x86_64
-      mgmt_user: windows
-      mgmt_protocol: winrm
-    hidden: false
   - name: srv01
-    flavor: c2_r4_d40
+    flavor: c4_r8_d60
     base_box:
       image: windows-server-2019-x86_64
       mgmt_user: windows
       mgmt_protocol: winrm
     hidden: false
-  - name: srv02
-    flavor: c2_r4_d40
+    volumes:
+    - size: 60
+    - size: 5
+  - name: lin03
+    flavor: c4_r8_d60
     base_box:
-      image: windows-server-2019-x86_64
-      mgmt_user: windows
-      mgmt_protocol: winrm
-    hidden: false
-  - name: lin1
-    flavor: c2_r4_d40
-    base_box:
-      image: debian-12-x86_64
-      mgmt_user: debian
+      image: xubuntu-noble-x86_64
+      mgmt_user: ubuntu
       mgmt_protocol: ssh
-    hidden: false
-  - name: lin2
-    flavor: c2_r4_d40
-    base_box:
-      image: debian-12-x86_64
-      mgmt_user: debian
-      mgmt_protocol: ssh
-    hidden: false
-  - name: lin3
-    flavor: c2_r4_d40
-    base_box:
-      image: debian-12-x86_64
-      mgmt_user: debian
-      mgmt_protocol: ssh
-    hidden: false
-  - name: lin4
-    flavor: c2_r4_d40
-    base_box:
-      image: debian-12-x86_64
-      mgmt_user: debian
-      mgmt_protocol: ssh
+    volumes:
+    - size: 40
+    - size: 5
     hidden: false
 routers:
   - name: router
@@ -74,9 +45,6 @@ wan:
   name: wan
   cidr: 10.10.100.0/24
 net_mappings:
-  - host: dc01
-    network: access-switch
-    ip: 10.10.10.3
   - host: srv01
     network: access-switch
     ip: 10.10.10.4
@@ -86,42 +54,12 @@ net_mappings:
   - host: srv01
     network: storage-switch
     ip: 10.10.30.4
-  - host: srv02
-    network: access-switch
-    ip: 10.10.10.5
-  - host: srv02
-    network: cluster-switch
-    ip: 10.10.20.5
-  - host: srv02
-    network: storage-switch
-    ip: 10.10.30.5
-  - host: lin1
-    network: access-switch
-    ip: 10.10.10.6
-  - host: lin1
-    network: cluster-switch
-    ip: 10.10.20.6
-  - host: lin1
-    network: storage-switch
-    ip: 10.10.30.6
-  - host: lin2
-    network: access-switch
-    ip: 10.10.10.7
-  - host: lin2
-    network: cluster-switch
-    ip: 10.10.20.7
-  - host: lin2
-    network: storage-switch
-    ip: 10.10.30.7
-  - host: lin3
+  - host: lin03
     network: access-switch
     ip: 10.10.10.8
-  - host: lin3
+  - host: lin03
     network: storage-switch
     ip: 10.10.30.3
-  - host: lin4
-    network: access-switch
-    ip: 10.10.10.9
 router_mappings:
   - router: router
     network: access-switch
@@ -133,35 +71,9 @@ router_mappings:
     network: storage-switch
     ip: 10.10.30.1
 groups:
-  - name: domain-controllers
-    nodes:
-      - dc01
   - name: windows-cluster
     nodes:
       - srv01
-      - srv02
-  - name: linux-ha
-    nodes:
-      - lin1
-      - lin2
   - name: storage-nodes
     nodes:
-      - lin3
-  - name: monitoring
-    nodes:
-      - lin4
-  - name: monitor-os
-    nodes:
-      - lin1
-      - lin2
-      - lin3
-      - lin4
-  - name: monitor-icmp
-    nodes:
-      - dc01
-      - srv01
-      - srv02
-      - lin1
-      - lin2
-      - lin3
-      - lin4
+      - lin03
